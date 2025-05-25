@@ -1,30 +1,284 @@
-<form id="paymentForm" method="POST" action="https://checkout.flutterwave.com/v3/hosted/pay">
-	<!-- Static Payment Fields -->
-	<input type="hidden" name="public_key" value="{{ public_key }}" />
-	<input type="hidden" name="tx_ref" value="{{ tx_ref }}" />
-  
-	<input type="hidden" name="amount" value="{{ amount }}" />
-	<input type="hidden" name="currency" value="NGN" />
-	<input type="hidden" name="redirect_url" value="https://your-redirect.com/" />
-	<input type="hidden" name="payment_options" value="card" />
-	
-	<!-- Dynamic Customer Fields (to be filled in via JS) -->
-	<input type="hidden" name="customer[name]" id="customerName" />
-	<input type="hidden" name="customer[email]" id="customerEmail" />
-	<input type="hidden" name="customer[phone_number]" id="customerPhone" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Checkout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+        #threejs-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .wine-gradient {
+            background: linear-gradient(135deg, #722F37 0%, #8B2635 50%, #722F37 100%);
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #D4AF37 100%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .input-field {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+        }
+        .input-field:focus {
+            border-color: #D4AF37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            outline: none;
+        }
+        .pay-button {
+            background: linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #B8860B 100%);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3);
+        }
+        .pay-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.4);
+        }
+        .form-container {
+            animation: slideInRight 0.8s ease-out;
+        }
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .floating-particles {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(212, 175, 55, 0.6);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+    </style>
+</head>
+<body class="wine-gradient min-h-screen">
+    <!-- Three.js Background Container -->
+    <div id="threejs-container"></div>
+    
+    <!-- Floating Particles -->
+    <div class="floating-particles" style="top: 20%; left: 10%; animation-delay: 0s;"></div>
+    <div class="floating-particles" style="top: 60%; left: 15%; animation-delay: 2s;"></div>
+    <div class="floating-particles" style="top: 40%; left: 8%; animation-delay: 4s;"></div>
+    <div class="floating-particles" style="top: 80%; left: 12%; animation-delay: 1s;"></div>
 
-	<!-- Visible Fields for the User -->
-	<label>Name: <input type="text" id="nameInput" required /></label><br/>
-	<label>Email: <input type="email" id="emailInput" required /></label><br/>
-	<label>Phone: <input type="tel" id="phoneInput" required /></label><br/>
+    <!-- Main Content -->
+    <div class="min-h-screen flex items-center justify-end pr-8 md:pr-16 lg:pr-24">
+        <div class="form-container glass-effect rounded-3xl p-8 md:p-12 w-full max-w-md shadow-2xl">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-white mb-2">Premium Checkout</h1>
+                <div class="w-16 h-1 gold-gradient mx-auto rounded-full"></div>
+                <p class="text-gray-200 mt-4">Complete your payment securely</p>
+            </div>
 
-	<button type="submit" onclick="fillCustomerFields()">Pay Now</button>
-</form>
+            <!-- Payment Form -->
+            <form id="paymentForm" method="POST" action="https://checkout.flutterwave.com/v3/hosted/pay" class="space-y-6">
+                <!-- Static Payment Fields -->
+                <input type="hidden" name="public_key" value="{{ public_key }}" />
+                <input type="hidden" name="tx_ref" value="{{ tx_ref }}" />
+                <input type="hidden" name="amount" value="{{ amount }}" />
+                <input type="hidden" name="currency" value="NGN" />
+                <input type="hidden" name="redirect_url" value="https://your-redirect.com/" />
+                <input type="hidden" name="payment_options" value="card" />
+                
+                <!-- Dynamic Customer Fields -->
+                <input type="hidden" name="customer[name]" id="customerName" />
+                <input type="hidden" name="customer[email]" id="customerEmail" />
+                <input type="hidden" name="customer[phone_number]" id="customerPhone" />
 
-<script>
-	function fillCustomerFields() {
-		document.getElementById('customerName').value = document.getElementById('nameInput').value;
-		document.getElementById('customerEmail').value = document.getElementById('emailInput').value;
-		document.getElementById('customerPhone').value = document.getElementById('phoneInput').value;
-	}
-</script>
+                <!-- Visible Form Fields -->
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-white text-sm font-semibold mb-2" for="nameInput">
+                            Full Name
+                        </label>
+                        <input 
+                            type="text" 
+                            id="nameInput" 
+                            required 
+                            class="input-field w-full px-4 py-3 rounded-xl text-gray-800 placeholder-gray-500"
+                            placeholder="Enter your full name"
+                        />
+                    </div>
+
+                    <div>
+                        <label class="block text-white text-sm font-semibold mb-2" for="emailInput">
+                            Email Address
+                        </label>
+                        <input 
+                            type="email" 
+                            id="emailInput" 
+                            required 
+                            class="input-field w-full px-4 py-3 rounded-xl text-gray-800 placeholder-gray-500"
+                            placeholder="Enter your email"
+                        />
+                    </div>
+
+                    <div>
+                        <label class="block text-white text-sm font-semibold mb-2" for="phoneInput">
+                            Phone Number
+                        </label>
+                        <input 
+                            type="tel" 
+                            id="phoneInput" 
+                            required 
+                            class="input-field w-full px-4 py-3 rounded-xl text-gray-800 placeholder-gray-500"
+                            placeholder="Enter your phone number"
+                        />
+                    </div>
+                </div>
+
+                <!-- Payment Button -->
+                <button 
+                    type="submit" 
+                    onclick="fillCustomerFields()"
+                    class="pay-button w-full py-4 rounded-xl text-white font-bold text-lg tracking-wide"
+                >
+                    Complete Payment
+                </button>
+
+                <!-- Security Notice -->
+                <div class="text-center mt-4">
+                    <p class="text-gray-300 text-xs">
+                        🔒 Your payment is secured with 256-bit SSL encryption
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Three.js Background Animation
+        let scene, camera, renderer, particles;
+
+        function initThreeJS() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('threejs-container').appendChild(renderer.domElement);
+
+            // Create particle system
+            const particleCount = 100;
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+            const sizes = new Float32Array(particleCount);
+
+            const wineColor = new THREE.Color(0x722F37);
+            const goldColor = new THREE.Color(0xD4AF37);
+
+            for (let i = 0; i < particleCount; i++) {
+                const i3 = i * 3;
+                
+                // Random positions
+                positions[i3] = (Math.random() - 0.5) * 20;
+                positions[i3 + 1] = (Math.random() - 0.5) * 20;
+                positions[i3 + 2] = (Math.random() - 0.5) * 20;
+
+                // Alternate between wine and gold colors
+                const color = Math.random() > 0.5 ? goldColor : wineColor;
+                colors[i3] = color.r;
+                colors[i3 + 1] = color.g;
+                colors[i3 + 2] = color.b;
+
+                sizes[i] = Math.random() * 0.5 + 0.2;
+            }
+
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+            const material = new THREE.PointsMaterial({
+                size: 0.1,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+
+            camera.position.z = 5;
+
+            animate();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Rotate particles
+            particles.rotation.x += 0.001;
+            particles.rotation.y += 0.002;
+
+            // Update particle positions for floating effect
+            const positions = particles.geometry.attributes.position.array;
+            for (let i = 0; i < positions.length; i += 3) {
+                positions[i + 1] += Math.sin(Date.now() * 0.001 + i) * 0.001;
+            }
+            particles.geometry.attributes.position.needsUpdate = true;
+
+            renderer.render(scene, camera);
+        }
+
+        // Handle window resize
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.addEventListener('resize', onWindowResize);
+
+        // Form handling function
+        function fillCustomerFields() {
+            document.getElementById('customerName').value = document.getElementById('nameInput').value;
+            document.getElementById('customerEmail').value = document.getElementById('emailInput').value;
+            document.getElementById('customerPhone').value = document.getElementById('phoneInput').value;
+        }
+
+        // Add input animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('.input-field');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                });
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'scale(1)';
+                });
+            });
+        });
+
+        // Initialize Three.js when page loads
+        window.addEventListener('load', initThreeJS);
+    </script>
+</body>
+</html>
