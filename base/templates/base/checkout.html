@@ -1,0 +1,30 @@
+<form id="paymentForm" method="POST" action="https://checkout.flutterwave.com/v3/hosted/pay">
+	<!-- Static Payment Fields -->
+	<input type="hidden" name="public_key" value="{{ public_key }}" />
+	<input type="hidden" name="tx_ref" value="{{ tx_ref }}" />
+  
+	<input type="hidden" name="amount" value="{{ amount }}" />
+	<input type="hidden" name="currency" value="NGN" />
+	<input type="hidden" name="redirect_url" value="https://your-redirect.com/" />
+	<input type="hidden" name="payment_options" value="card" />
+	
+	<!-- Dynamic Customer Fields (to be filled in via JS) -->
+	<input type="hidden" name="customer[name]" id="customerName" />
+	<input type="hidden" name="customer[email]" id="customerEmail" />
+	<input type="hidden" name="customer[phone_number]" id="customerPhone" />
+
+	<!-- Visible Fields for the User -->
+	<label>Name: <input type="text" id="nameInput" required /></label><br/>
+	<label>Email: <input type="email" id="emailInput" required /></label><br/>
+	<label>Phone: <input type="tel" id="phoneInput" required /></label><br/>
+
+	<button type="submit" onclick="fillCustomerFields()">Pay Now</button>
+</form>
+
+<script>
+	function fillCustomerFields() {
+		document.getElementById('customerName').value = document.getElementById('nameInput').value;
+		document.getElementById('customerEmail').value = document.getElementById('emailInput').value;
+		document.getElementById('customerPhone').value = document.getElementById('phoneInput').value;
+	}
+</script>
