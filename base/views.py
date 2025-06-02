@@ -1,74 +1,101 @@
-
 import uuid
 from django.shortcuts import render , redirect
-from .models import Transaction
+from .models import Transaction, Register
 import requests
 from django.http import HttpResponse
 from django.conf import settings
+from . forms import RegistrationForm
+from django.contrib import messages
+from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
+
 
 
 def checkout(request):
     tx_ref = f"tx-{uuid.uuid4()}"
-    amount = 2000  # you can make this dynamic
+    amount = 200
 
-    # Save transaction (optional but recommended)
-    Transaction.objects.create(ref=tx_ref, amount=amount, status='pending')
+    Transaction.objects.create(
+        ref=tx_ref, 
+        amount=amount, 
+       
+        currency='NGN'  
+    )
+
+ 
 
     context = {
-        "public_key": "FLWPUBK-7e15d7e29a41ecfe8d78a781aabfadf5-X",
+        "public_key": "FLWPUBK-bd2d89350e12beddc5a77081822dc580-X",
         "tx_ref": tx_ref,
         "amount": amount,
         "currency": "NGN",
-        "redirect_url": "https://your-redirect.com/",
+        "redirect_url": "https://41a4-2c0f-2a80-1f-bd10-305a-5405-660c-dad7.ngrok-free.app/payment_callback",
+
     }
 
     return render(request, "base/checkout.html", context)
 
 
+@csrf_exempt
 def payment_callback(request):
     tx_ref = request.GET.get('tx_ref')
     status = request.GET.get('status')
     transaction_id = request.GET.get('transaction_id')
 
-    if not tx_ref or not status:
-        return HttpResponse("Missing tx_ref or status", status=400)
+    print("Callback received:", tx_ref, status, transaction_id)
+
+    if not tx_ref or not status or not transaction_id:
+        print("Missing parameters")
+        messages.error(request, "Invalid payment details.")
+        return redirect('checkout')
 
     try:
         transaction = Transaction.objects.get(ref=tx_ref)
+        print("Transaction found:", transaction)
     except Transaction.DoesNotExist:
-        return HttpResponse("Transaction not found", status=404)
+        print("Transaction not found")
+        messages.error(request, "Transaction not found.")
+        return redirect('checkout')
 
-    if status != 'successful':
-        transaction.status = 'failed'
-        transaction.save()
-        return redirect('/payment-cancelled/')  # or show your own failure page
-
-    # Verify the transaction with Flutterwave
-    url = f"https://api.flutterwave.com/v3/transactions/{transaction_id}/verify"
-    headers = {
-        "Authorization": f"Bearer {settings.FLW_SECRET_KEY}"
-    }
-
-    try:
+    if status  in ['successful', 'completed']:
+        url = f"https://api.flutterwave.com/v3/transactions/{transaction_id}/verify"
+        headers = {"Authorization": f"Bearer {settings.FLW_SECRET_KEY}"}
         response = requests.get(url, headers=headers)
-        data = response.json().get('data', {})
+        data = response.json()
+        print("Verification response:", data)
 
         if (
-            data.get('status') == 'successful' and
-            float(data.get('amount')) == float(transaction.amount) and
-            data.get('currency') == transaction.currency
+            data.get('status') == 'success' and
+            data['data'].get('status') == 'successful' and
+            float(data['data'].get('amount')) == float(transaction.amount)
         ):
-            transaction.status = 'paid'
             transaction.flutterwave_transaction_id = transaction_id
+            transaction.status = 'paid'
             transaction.save()
-            return redirect('/payment-success/')  # your custom success page
+            print("Payment verified and saved.")
+            messages.success(request, "Payment successful!")
+            return redirect('register')
         else:
-            transaction.status = 'failed'
-            transaction.save()
-            return redirect('/payment-error/')  # mismatch in amount/currency
+            print("Verification failed: amount or status mismatch.")
 
-    except Exception as e:
-        print(f"Verification error: {e}")
-        return HttpResponse("Verification failed", status=500)
+    print("Payment failed or status is not successful.")
+    messages.error(request, "Payment was not successful or verification failed.")
+    return redirect('checkout')
 
 
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Registration completed successfully!")
+            return redirect('completed')  
+        else:
+            messages.error(request, "Please correct the errors below.")
+            return render(request, 'base/register.html', {'form': form})
+    else:
+        form = RegistrationForm()
+        return render(request, 'base/register.html', {'form': form})
+        
+def completed(request):
+    return render(request, 'base/completed.html')
