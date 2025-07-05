@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GXPLOIT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quintessential&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+        #threejs-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .wine-gradient {
+            background: linear-gradient(135deg, #722F37 0%, #8B2635 50%, #722F37 100%);
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #D4AF37 100%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .input-field {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+        }
+        .input-field:focus {
+            border-color: #D4AF37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            outline: none;
+        }
+        .submit-button {
+            background: linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #B8860B 100%);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3);
+        }
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.4);
+        }
+        .form-container {
+            animation: slideInRight 0.8s ease-out;
+        }
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .floating-particles {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(212, 175, 55, 0.6);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        .success-checkmark {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(34, 197, 94, 0.2);
+            border: 2px solid #22c55e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .form-group {
+            transition: transform 0.3s ease;
+        }
+        .form-group:focus-within {
+            transform: scale(1.02);
+        }
+        textarea.input-field {
+            resize: vertical;
+            min-height: 100px;
+        }
+    .splash-heading {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #FFD700; /* Bold yellow-gold */
+  text-align: left;
+  margin-top: 40px;
+  animation: pulse-glow 2s infinite;
+  letter-spacing: 1.5px;
+}
+
+@font-face {
+  font-family: 'Quivira';
+  src: url('/fonts/Quivira.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+.typewriter {
+  display: inline-block;
+  overflow: hidden;
+  border-right: 4px solid #FFD700;
+  white-space: nowrap;
+  animation: typing 3s steps(12, end), blink 0.7s step-end infinite;
+  font-family: 'Quintessential', cursive;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 11ch }
+}
+
+@keyframes blink {
+  50% { border-color: transparent }
+}
+
+
+
+
+    </style>
+</head>
+<body class="wine-gradient min-h-screen">
+    <!-- Three.js Background Container -->
+    <div id="threejs-container"></div>
+    
+    <!-- Floating Particles -->
+    <div class="floating-particles" style="top: 15%; left: 8%; animation-delay: 0s;"></div>
+    <div class="floating-particles" style="top: 45%; left: 12%; animation-delay: 2s;"></div>
+    <div class="floating-particles" style="top: 75%; left: 6%; animation-delay: 4s;"></div>
+    <div class="floating-particles" style="top: 25%; left: 18%; animation-delay: 1s;"></div>
+    <div class="floating-particles" style="top: 65%; left: 15%; animation-delay: 3s;"></div>
+
+    <!-- Main Content -->
+    <div class="flex flex-col md:flex-row min-h-screen gap-y-10 md:gap-x-8">
+        <div class="md:w-3/5 form-container rounded-3xl p-8 md:p-12 w-full h-full min-h-screen">
+  <!-- Theme Scripture -->
+            <div class="px-6 pt-10">
+                <p class="text-lg italic text-white leading-snug">
+                “Afta una don sofa small, God wey koll una with en grace enter en glory for Christ, go make una komplete, una leg go strong and una go get pawa..”<br />
+                <span class="font-semibold">— 1 Peter 5:10 </span>
+                </p>
+            </div>
+
+            <!-- Countdown Timer -->
+            <div id="countdown" class="text-yellow-300 text-3xl font-bold px-6 py-6">
+                Loading...
+            </div>
+
+            <!-- Testimonials -->
+             <div>
+            <marquee behavior="scroll" direction="up" scrollamount="1" class="text-blue-200 px-6 py-4 h-32 overflow-hidden text-sm leading-relaxed">
+                “The camp transformed my spiritual life, I made friends that will last a lifetime and I learned so much about myself.” – Whitney O.<br /><br />
+                “The activities were incredible, but the community and spiritual growth were what really made camp special” – Afoke O.<br /><br />
+                “I've attended many camps but GXPLOIT stands out. The leadership training was exceptional and I'm using those skills today.” – Osamudiame O.<br /><br />
+            </marquee>
+        </div>
+
+            <div class="w-full text-center mt-10">
+                <h1 class="text-white font-family: cursive text-5xl md:text-7xl uppercase text-center md:text-left">
+                    <span class="typewriter">AMAZING GOD</span>
+                </h1>
+            </div>
+
+           
+            <!-- Logo and Tagline -->
+            <div class="absolute bottom-6 left-6 flex flex-col items-start">
+                <img src="/static/images/gxlogoreal.png" alt="Camp Logo" class="h-12 mb-2" />
+                <p class="text-white text-sm">Building and Equiping the Youths that Build the Nations</p>
+            </div>
+
+           
+        </div>
+
+        <div class="md:w-1/5 form-container glass-effect rounded-3xl p-8 md:p-12 w-full h-full flex-1 items-center justify-center shadow-2xl min-h-full">
+            <!-- Success Indicator -->
+            <div class="text-center mb-8">
+                <div class="success-checkmark">
+                    <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold text-white mb-2">Complete Registration</h1>
+                <div class="w-16 h-1 gold-gradient mx-auto rounded-full"></div>
+                <p class="text-gray-200 mt-4">Payment successful! Please complete your profile</p>
+            </div>
+
+            <!-- Registration Form -->
+            <form method="POST" class="space-y-6">
+                {% csrf_token %}
+                
+                <div class="space-y-4">
+                    <!-- Name -->
+                    <div class="form-group">
+                        <label class="block text-white text-sm font-semibold mb-2" for="{{ form.name.id_for_label }}">
+                            Full Name *
+                        </label>
+                        {{ form.name }}
+                        {% if form.name.errors %}
+                            <div class="text-red-300 text-sm mt-1">
+                                {% for error in form.name.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="form-group">
+                        <label class="block text-white text-sm font-semibold mb-2" for="{{ form.phone_number.id_for_label }}">
+                            Phone Number *
+                        </label>
+                        {{ form.phone_number }}
+                        {% if form.phone_number.errors %}
+                            <div class="text-red-300 text-sm mt-1">
+                                {% for error in form.phone_number.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Date of Birth -->
+                    <div class="form-group">
+                        <label class="block text-white text-sm font-semibold mb-2" for="{{ form.date_of_birth.id_for_label }}">
+                            Date of Birth *
+                        </label>
+                        {{ form.date_of_birth }}
+                        {% if form.date_of_birth.errors %}
+                            <div class="text-red-300 text-sm mt-1">
+                                {% for error in form.date_of_birth.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="form-group">
+                        <label class="block text-white text-sm font-semibold mb-2" for="{{ form.gender.id_for_label }}">
+                            Gender *
+                        </label>
+                        {{ form.gender }}
+                        {% if form.gender.errors %}
+                            <div class="text-red-300 text-sm mt-1">
+                                {% for error in form.gender.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Branch -->
+                    <div class="form-group">
+                        <label class="block text-white text-sm font-semibold mb-2" for="{{ form.branch.id_for_label }}">
+                            Branch *
+                        </label>
+                        {{ form.branch }}
+                        {% if form.branch.errors %}
+                            <div class="text-red-300 text-sm mt-1">
+                                {% for error in form.branch.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- District -->
+                    <div class="form-group">
+                        <label class="block text-white text-sm font-semibold mb-2" for="{{ form.district.id_for_label }}">
+                            District *
+                        </label>
+                        {{ form.district }}
+                        {% if form.district.errors %}
+                            <div class="text-red-300 text-sm mt-1">
+                                {% for error in form.district.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Department -->
+                    <div class="form-group">
+                        <label class="block text-white text-sm font-semibold mb-2" for="{{ form.department.id_for_label }}">
+                            Department *
+                        </label>
+                        {{ form.department }}
+                        {% if form.department.errors %}
+                            <div class="text-red-300 text-sm mt-1">
+                                {% for error in form.department.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button 
+                    type="submit" 
+                    class="submit-button w-full py-4 rounded-xl text-white font-bold text-lg tracking-wide"
+                >
+                    Complete Registration
+                </button>
+
+                <!-- Security Notice -->
+                <div class="text-center mt-4">
+                    <p class="text-gray-300 text-xs">
+                        🔒 Your information is secured and encrypted
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+     <!-- Countdown Script -->
+            <script>
+                const countdown = () => {
+                const eventDate = new Date("2025-09-03T10:00:00");
+                const now = new Date();
+                const diff = eventDate - now;
+
+                if (diff <= 0) {
+                    document.getElementById("countdown").innerText = "The Camp has started!";
+                    return;
+                }
+
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                const minutes = Math.floor((diff / (1000 * 60)) % 60);
+                const seconds = Math.floor((diff / 1000) % 60);
+
+                document.getElementById("countdown").innerText =
+                    `${days}d ${hours}h ${minutes}m ${seconds}s to go!`;
+                };
+
+                setInterval(countdown, 1000);
+                countdown();
+            </script>
+
+    <script>
+        // Three.js Background Animation
+        let scene, camera, renderer, particles;
+
+        function initThreeJS() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('threejs-container').appendChild(renderer.domElement);
+
+            // Create particle system
+            const particleCount = 80;
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+            const sizes = new Float32Array(particleCount);
+
+            const wineColor = new THREE.Color(0x722F37);
+            const goldColor = new THREE.Color(0xD4AF37);
+
+            for (let i = 0; i < particleCount; i++) {
+                const i3 = i * 3;
+                
+                positions[i3] = (Math.random() - 0.5) * 25;
+                positions[i3 + 1] = (Math.random() - 0.5) * 25;
+                positions[i3 + 2] = (Math.random() - 0.5) * 25;
+
+                const color = Math.random() > 0.5 ? goldColor : wineColor;
+                colors[i3] = color.r;
+                colors[i3 + 1] = color.g;
+                colors[i3 + 2] = color.b;
+
+                sizes[i] = Math.random() * 0.5 + 0.2;
+            }
+
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+
+            const material = new THREE.PointsMaterial({
+                size: 0.1,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.7,
+                blending: THREE.AdditiveBlending
+            });
+
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+
+            camera.position.z = 5;
+            animate();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            particles.rotation.x += 0.0008;
+            particles.rotation.y += 0.0015;
+
+            const positions = particles.geometry.attributes.position.array;
+            for (let i = 0; i < positions.length; i += 3) {
+                positions[i + 1] += Math.sin(Date.now() * 0.001 + i) * 0.0008;
+            }
+            particles.geometry.attributes.position.needsUpdate = true;
+
+            renderer.render(scene, camera);
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        window.addEventListener('resize', onWindowResize);
+
+        // Form field styling
+        document.addEventListener('DOMContentLoaded', function() {
+            // Apply input-field class to all form inputs
+            const formInputs = document.querySelectorAll('input, textarea, select');
+            formInputs.forEach(input => {
+                input.classList.add('input-field', 'w-full', 'px-4', 'py-3', 'rounded-xl', 'text-gray-800', 'placeholder-gray-500');
+                
+                // Special handling for date inputs
+                if (input.type === 'date') {
+                    input.style.colorScheme = 'light';
+                }
+            });
+
+            // Add focus/blur animations
+            const formGroups = document.querySelectorAll('.form-group');
+            formGroups.forEach(group => {
+                const input = group.querySelector('input, textarea, select');
+                if (input) {
+                    input.addEventListener('focus', function() {
+                        group.style.transform = 'scale(1.02)';
+                    });
+                    input.addEventListener('blur', function() {
+                        group.style.transform = 'scale(1)';
+                    });
+                }
+            });
+        });
+
+        window.addEventListener('load', initThreeJS);
+    </script>
+</body>
+</html>
