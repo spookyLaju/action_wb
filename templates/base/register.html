@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -188,7 +189,8 @@
            
             <!-- Logo and Tagline -->
             <div class="absolute bottom-6 left-6 flex flex-col items-start">
-                <img src="/static/images/gxlogoreal.png" alt="Camp Logo" class="h-12 mb-2" />
+                
+                <img src="{% static 'images/gxlogoreal.png' %}" alt="Camp Logo" class="h-12 mb-2" />
                 <p class="text-white text-sm">Building and Equiping the Youths that Build the Nations</p>
             </div>
 

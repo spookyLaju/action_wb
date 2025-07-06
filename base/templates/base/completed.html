@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Complete</title>
+    <title>GXPLOIT</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
@@ -120,8 +120,12 @@
     </style>
 </head>
 <body class="wine-gradient min-h-screen">
+    <div id="hero-bg" class="fixed top-0 left-0 w-full h-full z-[-2]">
+        <div class="absolute inset-0 bg-[url('/static/images/hero.jpg')] bg-cover bg-center filter blur-sm brightness-75"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-[#722F37cc] to-[#FFD70044]"></div>
+    </div>
     <!-- Three.js Background Container -->
-    <div id="threejs-container"></div>
+    <!-- <div id="threejs-container"></div> -->
     
     <!-- Floating Particles -->
     <div class="floating-particles" style="top: 10%; left: 5%; animation-delay: 0s;"></div>
@@ -137,7 +141,7 @@
     <div class="celebration-particles" style="top: 40%; left: 60%; animation-delay: 1.5s;"></div>
 
     <!-- Main Content -->
-    <div class="min-h-screen flex items-center justify-end pr-8 md:pr-16 lg:pr-24">
+   <div class="min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-10">
         <div class="success-container glass-effect rounded-3xl p-8 md:p-12 w-full max-w-lg shadow-2xl">
             <!-- Success Message -->
             <div class="text-center mb-8">
@@ -149,8 +153,7 @@
                 <h1 class="text-4xl font-bold text-white mb-3 text-glow">Welcome Aboard!</h1>
                 <div class="w-20 h-1 gold-gradient mx-auto rounded-full mb-4"></div>
                 <p class="text-gray-200 text-lg leading-relaxed">
-                    Congratulations! Your registration has been completed successfully. 
-                    You're now part of our premium community.
+                    Congratulations! Your Payment has been completed successfully.<strong class="text-red-500">10 secs</strong> to be redirected to the Registeration Page.
                 </p>
             </div>
 
@@ -179,10 +182,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
                                 </svg>
                             </div>
-                            <div>
-                                <h3 class="text-white font-medium">Access Premium Features</h3>
-                                <p class="text-gray-300 text-sm">Explore all exclusive benefits of membership</p>
-                            </div>
+                        
                         </div>
                     </div>
 
@@ -195,7 +195,7 @@
                             </div>
                             <div>
                                 <h3 class="text-white font-medium">24/7 Support</h3>
-                                <p class="text-gray-300 text-sm">Our premium support team is here to help</p>
+                                <a href="tel:+2348124577388" class="text-gray-300 text-sm">Our GXPLOIT support team is here to help</a>n\
                             </div>
                         </div>
                     </div>
@@ -203,7 +203,7 @@
             </div>
 
             <!-- Call to Action -->
-            <div class="text-center space-y-4">
+           <!-- <div class="text-center space-y-4">
                 <button 
                     onclick="window.location.href='/dashboard/'" 
                     class="cta-button w-full py-4 rounded-xl text-white font-bold text-lg tracking-wide"
@@ -225,12 +225,12 @@
                         Get Support
                     </button>
                 </div>
-            </div>
+            </div>-->
 
             <!-- Thank You Message -->
             <div class="text-center mt-8 pt-6 border-t border-gray-400/20">
                 <p class="text-gray-300 text-sm">
-                    Thank you for choosing our premium service. We're excited to have you on board!
+                    Thank you for Registering. We look forward to seeing you at camp meeting!
                 </p>
                 <p class="text-yellow-400 text-xs mt-2">
                     ✨ Registration ID: #{{ registration_id|default:"REG-2025-001" }}

@@ -1,15 +1,17 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Registration</title>
+    <title>GXPLOIT</title>
+    <link rel="stylesheet" href="{% static 'css/extra.css' %}">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         body {
             margin: 0;
-            overflow-x: hidden;
+            overflow: hidden;
             font-family: 'Inter', sans-serif;
         }
         #threejs-container {
@@ -41,12 +43,12 @@
             box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
             outline: none;
         }
-        .submit-button {
+        .pay-button {
             background: linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #B8860B 100%);
             transition: all 0.3s ease;
             box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3);
         }
-        .submit-button:hover {
+        .pay-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 12px 40px rgba(212, 175, 55, 0.4);
         }
@@ -75,188 +77,134 @@
             0%, 100% { transform: translateY(0px) rotate(0deg); }
             50% { transform: translateY(-20px) rotate(180deg); }
         }
-        .success-checkmark {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: rgba(34, 197, 94, 0.2);
-            border: 2px solid #22c55e;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        .form-group {
-            transition: transform 0.3s ease;
-        }
-        .form-group:focus-within {
-            transform: scale(1.02);
-        }
-        textarea.input-field {
-            resize: vertical;
-            min-height: 100px;
-        }
     </style>
 </head>
 <body class="wine-gradient min-h-screen">
+
+    <!-- Hero Image Background with Overlay -->
+    <div id="hero-bg" class="fixed top-0 left-0 w-full h-full z-[-2]">
+        <div class="absolute inset-0 bg-[url('/static/images/hero.jpg')] bg-cover bg-center filter blur-sm brightness-75"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-[#722F37cc] to-[#FFD70044]"></div>
+    </div>
+
     <!-- Three.js Background Container -->
-    <div id="threejs-container"></div>
+    <!-- <div id="threejs-container"></div>-->
     
     <!-- Floating Particles -->
-    <div class="floating-particles" style="top: 15%; left: 8%; animation-delay: 0s;"></div>
-    <div class="floating-particles" style="top: 45%; left: 12%; animation-delay: 2s;"></div>
-    <div class="floating-particles" style="top: 75%; left: 6%; animation-delay: 4s;"></div>
-    <div class="floating-particles" style="top: 25%; left: 18%; animation-delay: 1s;"></div>
-    <div class="floating-particles" style="top: 65%; left: 15%; animation-delay: 3s;"></div>
+    <div class="floating-particles" style="top: 20%; left: 10%; animation-delay: 0s;"></div>
+    <div class="floating-particles" style="top: 60%; left: 15%; animation-delay: 2s;"></div>
+    <div class="floating-particles" style="top: 40%; left: 8%; animation-delay: 4s;"></div>
+    <div class="floating-particles" style="top: 80%; left: 12%; animation-delay: 1s;"></div>
 
     <!-- Main Content -->
-    <div class="min-h-screen flex items-center justify-end pr-8 md:pr-16 lg:pr-24 py-8">
-        <div class="form-container glass-effect rounded-3xl p-8 md:p-12 w-full max-w-lg shadow-2xl">
-            <!-- Success Indicator -->
-            <div class="text-center mb-8">
-                <div class="success-checkmark">
-                    <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                </div>
-                <h1 class="text-3xl font-bold text-white mb-2">Complete Registration</h1>
-                <div class="w-16 h-1 gold-gradient mx-auto rounded-full"></div>
-                <p class="text-gray-200 mt-4">Payment successful! Please complete your profile</p>
-            </div>
-
-            <!-- Registration Form -->
-            <form method="POST" class="space-y-6">
-                {% csrf_token %}
-                
-                <div class="space-y-4">
-                    <!-- Name -->
-                    <div class="form-group">
-                        <label class="block text-white text-sm font-semibold mb-2" for="{{ form.name.id_for_label }}">
-                            Full Name *
-                        </label>
-                        {{ form.name }}
-                        {% if form.name.errors %}
-                            <div class="text-red-300 text-sm mt-1">
-                                {% for error in form.name.errors %}
-                                    <p>{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
-
-                    <!-- Phone Number -->
-                    <div class="form-group">
-                        <label class="block text-white text-sm font-semibold mb-2" for="{{ form.phone_number.id_for_label }}">
-                            Phone Number *
-                        </label>
-                        {{ form.phone_number }}
-                        {% if form.phone_number.errors %}
-                            <div class="text-red-300 text-sm mt-1">
-                                {% for error in form.phone_number.errors %}
-                                    <p>{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
-
-                    <!-- Date of Birth -->
-                    <div class="form-group">
-                        <label class="block text-white text-sm font-semibold mb-2" for="{{ form.date_of_birth.id_for_label }}">
-                            Date of Birth *
-                        </label>
-                        {{ form.date_of_birth }}
-                        {% if form.date_of_birth.errors %}
-                            <div class="text-red-300 text-sm mt-1">
-                                {% for error in form.date_of_birth.errors %}
-                                    <p>{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
-
-                    <!-- Gender -->
-                    <div class="form-group">
-                        <label class="block text-white text-sm font-semibold mb-2" for="{{ form.gender.id_for_label }}">
-                            Gender *
-                        </label>
-                        {{ form.gender }}
-                        {% if form.gender.errors %}
-                            <div class="text-red-300 text-sm mt-1">
-                                {% for error in form.gender.errors %}
-                                    <p>{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
-
-                    <!-- Branch -->
-                    <div class="form-group">
-                        <label class="block text-white text-sm font-semibold mb-2" for="{{ form.branch.id_for_label }}">
-                            Branch *
-                        </label>
-                        {{ form.branch }}
-                        {% if form.branch.errors %}
-                            <div class="text-red-300 text-sm mt-1">
-                                {% for error in form.branch.errors %}
-                                    <p>{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
-
-                    <!-- District -->
-                    <div class="form-group">
-                        <label class="block text-white text-sm font-semibold mb-2" for="{{ form.district.id_for_label }}">
-                            District *
-                        </label>
-                        {{ form.district }}
-                        {% if form.district.errors %}
-                            <div class="text-red-300 text-sm mt-1">
-                                {% for error in form.district.errors %}
-                                    <p>{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
-
-                    <!-- Department -->
-                    <div class="form-group">
-                        <label class="block text-white text-sm font-semibold mb-2" for="{{ form.department.id_for_label }}">
-                            Department *
-                        </label>
-                        {{ form.department }}
-                        {% if form.department.errors %}
-                            <div class="text-red-300 text-sm mt-1">
-                                {% for error in form.department.errors %}
-                                    <p>{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
-
-                <!-- Submit Button -->
-                <button 
-                    type="submit" 
-                    class="submit-button w-full py-4 rounded-xl text-white font-bold text-lg tracking-wide"
-                >
-                    Complete Registration
-                </button>
-
-                <!-- Security Notice -->
-                <div class="text-center mt-4">
-                    <p class="text-gray-300 text-xs">
-                        🔒 Your information is secured and encrypted
-                    </p>
-                </div>
-            </form>
+    <div class="min-h-screen flex items-center px-4 md:px-8 lg:px-24">
+        <div class="flex flex-col md:flex-row gap-6 w-full max-w-7xl">
+    <!-- Instructions Container -->
+        <div class="form-container glass-effect rounded-3xl p-8 md:p-12 w-full flex-1 shadow-2xl min-h-full">
+          <h2 class="text-white text-3xl font-bold mb-4">How to Register</h2>
+          <ol class="list-decimal list-inside text-gray-200 space-y-3 text-base leading-relaxed">
+            <li>Enter your full name, email, and phone number.</li>
+            <li>Click on <strong>Complete Payment</strong> to proceed.</li>
+            <li>After successful payment, you'd be redirected to the registeration page</li>
+            <li>Kindly fill in your details and submit the form</li>
+          </ol>
         </div>
+
+    <!-- Gallery Container -->
+        <div class="form-container glass-effect rounded-3xl p-12 md:p-12 w-full lg:w-[45%] shadow-2xl min-h-full">
+
+        <!-- Title & Description -->
+        <div>
+            <h2 class="text-white text-3xl font-bold mb-2">Moments from Past Events</h2>
+            <p class="text-gray-300 text-sm leading-relaxed">
+            Here are some snapshots of what you can expect. It's more than just an event — it's an experience.
+            </p>
+        </div>
+
+        <!-- Image Album -->
+        <div class="relative w-full min-h-[600px] mt-10">
+            <!-- Center Large Photos -->
+            <img src="/static/images/papa.jpg" class="photo-large left-[30%] top-[40%] z-30 rotate-[-5deg]" />
+            <img src="/static/images/wlbc.jpg" class="photo-large left-[2%] top-[10%] z-20 rotate-[3deg]" />
+            <img src="/static/images/image16.JPG" class="photo-large left-[65%] top-[55%] z-20 rotate-[8deg]" />
+
+            <!-- Surrounding Smaller Photos -->
+            <img src="/static/images/choir.jpg" class="photo-small left-[5%] top-[50%] rotate-[-10deg] z-10" />
+            <img src="/static/images/image2.JPG" class="photo-small left-[65%] top-[5%] rotate-[12deg] z-10" />
+            <img src="/static/images/image3.JPG" class="photo-small left-[65%] top-[20%] rotate-[7deg] z-10" />
+            <img src="/static/images/image6.JPG" class="photo-small left-[40%] top-[6%] rotate-[15deg] z-10" />
+            <img src="/static/images/image7.JPG" class="photo-small left-[10%] top-[35%] rotate-[-8deg] z-10" />
+            <img src="/static/images/image8.JPG" class="photo-small left-[30%] top-[70%] rotate-[-4deg] z-10" />
+            <img src="/static/images/image10.JPG" class="photo-small left-[35%] top-[25%] rotate-[10deg] z-10" />
+            <img src="/static/images/image13.JPG" class="photo-small left-[47%] top-[70%] rotate-[-6deg] z-10" />
+            <img src="/static/images/image15.JPG" class="photo-small left-[65%] top-[40%] rotate-[5deg] z-10" />
+            <img src="/static/images/drama.jpg" class="photo-small left-[5%] top-[70%] rotate-[10deg] z-10" />
+            <img src="/static/images/image17.JPG" class="photo-small left-[80%] top-[35%] rotate-[-12deg] z-10" />
+            <img src="/static/images/reg.jpg" class="photo-small left-[20%] top-[80%] rotate-[12deg] z-10" />
+        </div>
+        </div>
+
+
+
+        <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center hidden z-50">
+          <img id="lightbox-img" class="max-w-full max-h-[80vh] rounded-xl shadow-2xl" />
+        </div>
+
+
+    <!-- Checkout Container -->
+    <div class="form-container glass-effect rounded-3xl p-8 md:p-12 w-full flex-1 shadow-2xl min-h-full">
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-white mb-2">GXPLOIT Registration</h1>
+        <div class="w-16 h-1 gold-gradient mx-auto rounded-full"></div>
+        <p class="text-gray-200 mt-4">Complete your payment securely</p>
+      </div>
+
+      <!-- Payment Form -->
+      <form id="paymentForm" method="POST" action="https://checkout.flutterwave.com/v3/hosted/pay" class="space-y-6">
+        <!-- Hidden Static Fields -->
+        <input type="hidden" name="public_key" value="{{ public_key }}" />
+        <input type="hidden" name="tx_ref" value="{{ tx_ref }}" />
+        <input type="hidden" name="amount" value="{{ amount }}" />
+        <input type="hidden" name="currency" value="NGN" />
+        <input type="hidden" name="redirect_url" value="{{ redirect_url }}" />
+        <input type="hidden" name="payment_options" value="card" />
+        <input type="hidden" name="customer[name]" id="customerName" />
+        <input type="hidden" name="customer[email]" id="customerEmail" />
+        <input type="hidden" name="customer[phone_number]" id="customerPhone" />
+
+        <!-- Form Inputs -->
+        <div class="space-y-4">
+          <div>
+            <label class="block text-white text-sm font-semibold mb-2" for="nameInput">Full Name</label>
+            <input type="text" id="nameInput" required class="input-field w-full px-4 py-3 rounded-xl text-gray-800 placeholder-gray-500" placeholder="Enter your full name" />
+          </div>
+
+          <div>
+            <label class="block text-white text-sm font-semibold mb-2" for="emailInput">Email Address</label>
+            <input type="email" id="emailInput" required class="input-field w-full px-4 py-3 rounded-xl text-gray-800 placeholder-gray-500" placeholder="Enter your email" />
+          </div>
+
+          <div>
+            <label class="block text-white text-sm font-semibold mb-2" for="phoneInput">Phone Number</label>
+            <input type="tel" id="phoneInput" required class="input-field w-full px-4 py-3 rounded-xl text-gray-800 placeholder-gray-500" placeholder="Enter your phone number" />
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" onclick="fillCustomerFields()" class="pay-button w-full py-4 rounded-xl text-white font-bold text-lg tracking-wide">
+          Complete Payment
+        </button>
+
+        <!-- Security Note -->
+        <div class="text-center mt-4">
+          <p class="text-gray-300 text-xs">🔒 Your payment is secured with 256-bit SSL encryption</p>
+        </div>
+      </form>
     </div>
+  </div>
+</div>
+
 
     <script>
         // Three.js Background Animation
@@ -270,7 +218,7 @@
             document.getElementById('threejs-container').appendChild(renderer.domElement);
 
             // Create particle system
-            const particleCount = 80;
+            const particleCount = 100;
             const positions = new Float32Array(particleCount * 3);
             const colors = new Float32Array(particleCount * 3);
             const sizes = new Float32Array(particleCount);
@@ -281,10 +229,12 @@
             for (let i = 0; i < particleCount; i++) {
                 const i3 = i * 3;
                 
-                positions[i3] = (Math.random() - 0.5) * 25;
-                positions[i3 + 1] = (Math.random() - 0.5) * 25;
-                positions[i3 + 2] = (Math.random() - 0.5) * 25;
+                // Random positions
+                positions[i3] = (Math.random() - 0.5) * 20;
+                positions[i3 + 1] = (Math.random() - 0.5) * 20;
+                positions[i3 + 2] = (Math.random() - 0.5) * 20;
 
+                // Alternate between wine and gold colors
                 const color = Math.random() > 0.5 ? goldColor : wineColor;
                 colors[i3] = color.r;
                 colors[i3 + 1] = color.g;
@@ -302,7 +252,7 @@
                 size: 0.1,
                 vertexColors: true,
                 transparent: true,
-                opacity: 0.7,
+                opacity: 0.8,
                 blending: THREE.AdditiveBlending
             });
 
@@ -310,23 +260,28 @@
             scene.add(particles);
 
             camera.position.z = 5;
+
             animate();
         }
 
         function animate() {
             requestAnimationFrame(animate);
-            particles.rotation.x += 0.0008;
-            particles.rotation.y += 0.0015;
 
+            // Rotate particles
+            particles.rotation.x += 0.001;
+            particles.rotation.y += 0.002;
+
+            // Update particle positions for floating effect
             const positions = particles.geometry.attributes.position.array;
             for (let i = 0; i < positions.length; i += 3) {
-                positions[i + 1] += Math.sin(Date.now() * 0.001 + i) * 0.0008;
+                positions[i + 1] += Math.sin(Date.now() * 0.001 + i) * 0.001;
             }
             particles.geometry.attributes.position.needsUpdate = true;
 
             renderer.render(scene, camera);
         }
 
+        // Handle window resize
         function onWindowResize() {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
@@ -335,35 +290,69 @@
 
         window.addEventListener('resize', onWindowResize);
 
-        // Form field styling
-        document.addEventListener('DOMContentLoaded', function() {
-            // Apply input-field class to all form inputs
-            const formInputs = document.querySelectorAll('input, textarea, select');
-            formInputs.forEach(input => {
-                input.classList.add('input-field', 'w-full', 'px-4', 'py-3', 'rounded-xl', 'text-gray-800', 'placeholder-gray-500');
-                
-                // Special handling for date inputs
-                if (input.type === 'date') {
-                    input.style.colorScheme = 'light';
-                }
-            });
+        // Form handling function
+        function fillCustomerFields() {
+            document.getElementById('customerName').value = document.getElementById('nameInput').value;
+            document.getElementById('customerEmail').value = document.getElementById('emailInput').value;
+            document.getElementById('customerPhone').value = document.getElementById('phoneInput').value;
+        }
 
-            // Add focus/blur animations
-            const formGroups = document.querySelectorAll('.form-group');
-            formGroups.forEach(group => {
-                const input = group.querySelector('input, textarea, select');
-                if (input) {
-                    input.addEventListener('focus', function() {
-                        group.style.transform = 'scale(1.02)';
-                    });
-                    input.addEventListener('blur', function() {
-                        group.style.transform = 'scale(1)';
-                    });
-                }
+        // Add input animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('.input-field');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                });
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'scale(1)';
+                });
             });
         });
 
+        // Initialize Three.js when page loads
         window.addEventListener('load', initThreeJS);
     </script>
+
+    <script>
+  const images = [
+    'toju.jpg', 'image1.jpg', 'register.jpg', 'drama.jpg', 'choir.jpg',
+    'image6.jpg', 'image7.jpg', 'image8.jpg', 'image9.jpg', 'image10.jpg',
+    'image11.jpg', 'image12.jpg', 'image13.jpg', 'image14.jpg', 'image15.jpg'
+  ];
+
+  const container = document.getElementById("photo-album");
+
+  images.forEach((img, index) => {
+    const el = document.createElement("img");
+    el.src = `/static/images/${img}`;
+    el.alt = `Photo ${index + 1}`;
+    el.className =
+      `absolute w-24 h-24 md:w-28 md:h-28 object-cover rounded-xl shadow-xl cursor-pointer transition-transform duration-300 hover:scale-110 fade-in`;
+
+    // Random position and rotation
+    el.style.top = `${Math.random() * 75}%`;
+    el.style.left = `${Math.random() * 75}%`;
+    el.style.transform += ` rotate(${Math.floor(Math.random() * 30 - 15)}deg)`;
+    el.style.zIndex = Math.floor(Math.random() * 30 + 10);
+
+    // Click opens lightbox
+    el.onclick = () => {
+      document.getElementById("lightbox-img").src = el.src;
+      document.getElementById("lightbox").classList.remove("hidden");
+    };
+
+    container.appendChild(el);
+
+    // Animate in
+    setTimeout(() => el.classList.add("fade-in-visible"), 100);
+  });
+
+  // Lightbox close
+  document.getElementById("lightbox").onclick = () => {
+    document.getElementById("lightbox").classList.add("hidden");
+  };
+</script>
+
 </body>
-</html>
+</html> 

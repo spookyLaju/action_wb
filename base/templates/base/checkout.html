@@ -1,9 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Checkout</title>
+    <title>GXPLOIT</title>
+    <link rel="stylesheet" href="{% static 'css/extra.css' %}">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
@@ -88,91 +90,95 @@
     <div class="floating-particles" style="top: 80%; left: 12%; animation-delay: 1s;"></div>
 
     <!-- Main Content -->
-    <div class="min-h-screen flex items-center justify-end pr-8 md:pr-16 lg:pr-24">
-        <div class="form-container glass-effect rounded-3xl p-8 md:p-12 w-full max-w-md shadow-2xl">
-            <!-- Header -->
-            <div class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-white mb-2">Premium Checkout</h1>
-                <div class="w-16 h-1 gold-gradient mx-auto rounded-full"></div>
-                <p class="text-gray-200 mt-4">Complete your payment securely</p>
-            </div>
-
-            <!-- Payment Form -->
-            <form id="paymentForm" method="POST" action="https://checkout.flutterwave.com/v3/hosted/pay" class="space-y-6">
-                <!-- Static Payment Fields -->
-                <input type="hidden" name="public_key" value="{{ public_key }}" />
-                <input type="hidden" name="tx_ref" value="{{ tx_ref }}" />
-                <input type="hidden" name="amount" value="{{ amount }}" />
-                <input type="hidden" name="currency" value="NGN" />
-                <input type="hidden" name="redirect_url" value="https://41a4-2c0f-2a80-1f-bd10-305a-5405-660c-dad7.ngrok-free.app/payment_callback" />
-
-                <input type="hidden" name="payment_options" value="card" />
-                
-                <!-- Dynamic Customer Fields -->
-                <input type="hidden" name="customer[name]" id="customerName" />
-                <input type="hidden" name="customer[email]" id="customerEmail" />
-                <input type="hidden" name="customer[phone_number]" id="customerPhone" />
-
-                <!-- Visible Form Fields -->
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-white text-sm font-semibold mb-2" for="nameInput">
-                            Full Name
-                        </label>
-                        <input 
-                            type="text" 
-                            id="nameInput" 
-                            required 
-                            class="input-field w-full px-4 py-3 rounded-xl text-gray-800 placeholder-gray-500"
-                            placeholder="Enter your full name"
-                        />
-                    </div>
-
-                    <div>
-                        <label class="block text-white text-sm font-semibold mb-2" for="emailInput">
-                            Email Address
-                        </label>
-                        <input 
-                            type="email" 
-                            id="emailInput" 
-                            required 
-                            class="input-field w-full px-4 py-3 rounded-xl text-gray-800 placeholder-gray-500"
-                            placeholder="Enter your email"
-                        />
-                    </div>
-
-                    <div>
-                        <label class="block text-white text-sm font-semibold mb-2" for="phoneInput">
-                            Phone Number
-                        </label>
-                        <input 
-                            type="tel" 
-                            id="phoneInput" 
-                            required 
-                            class="input-field w-full px-4 py-3 rounded-xl text-gray-800 placeholder-gray-500"
-                            placeholder="Enter your phone number"
-                        />
-                    </div>
-                </div>
-
-                <!-- Payment Button -->
-                <button 
-                    type="submit" 
-                    onclick="fillCustomerFields()"
-                    class="pay-button w-full py-4 rounded-xl text-white font-bold text-lg tracking-wide"
-                >
-                    Complete Payment
-                </button>
-
-                <!-- Security Notice -->
-                <div class="text-center mt-4">
-                    <p class="text-gray-300 text-xs">
-                        🔒 Your payment is secured with 256-bit SSL encryption
-                    </p>
-                </div>
-            </form>
+    <div class="min-h-screen flex items-center px-4 md:px-8 lg:px-24">
+        <div class="flex flex-col md:flex-row gap-6 w-full max-w-7xl">
+    <!-- Instructions Container -->
+        <div class="form-container glass-effect rounded-3xl p-8 md:p-12 w-full flex-1 shadow-2xl min-h-full">
+          <h2 class="text-white text-3xl font-bold mb-4">How to Register</h2>
+          <ol class="list-decimal list-inside text-gray-200 space-y-3 text-base leading-relaxed">
+            <li>Enter your full name, email, and phone number.</li>
+            <li>Click on <strong>Complete Payment</strong> to proceed.</li>
+            <li>After successful payment, you'd be redirected to the registeration page</li>
+            <li>Kindly fill in your details and submit the form</li>
+          </ol>
         </div>
+
+    <!-- Gallery Container -->
+        <div class="form-container glass-effect rounded-3xl p-12 md:p-12 w-full lg:w-[45%] shadow-2xl min-h-full">
+
+        <!-- Title & Description -->
+        <div>
+            <h2 class="text-white text-3xl font-bold mb-2">Moments from Past Events</h2>
+            <p class="text-gray-300 text-sm leading-relaxed">
+            Here are some snapshots of what you can expect. It's more than just an event — it's an experience.
+            </p>
+        </div>
+
+        <!-- Image Album -->
+        <div id="photo-album" class="relative w-full min-h-[600px] mt-10"></div>
+        </div>
+
+
+
+        <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center hidden z-50">
+          <img id="lightbox-img" class="max-w-full max-h-[80vh] rounded-xl shadow-2xl" />
+        </div>
+
+
+    <!-- Checkout Container -->
+    <div class="form-container glass-effect rounded-3xl p-8 md:p-12 w-full flex-1 shadow-2xl min-h-full">
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-white mb-2">GXPLOIT Registration</h1>
+        <div class="w-16 h-1 gold-gradient mx-auto rounded-full"></div>
+        <p class="text-gray-200 mt-4">Complete your payment securely</p>
+      </div>
+
+      <!-- Payment Form -->
+      <form id="paymentForm" method="POST" action="https://checkout.flutterwave.com/v3/hosted/pay" class="space-y-6">
+        <!-- Hidden Static Fields -->
+        <input type="hidden" name="public_key" value="{{ public_key }}" />
+        <input type="hidden" name="tx_ref" value="{{ tx_ref }}" />
+        <input type="hidden" name="amount" value="{{ amount }}" />
+        <input type="hidden" name="currency" value="NGN" />
+        <input type="hidden" name="redirect_url" value="{{ redirect_url }}" />
+        <input type="hidden" name="payment_options" value="card" />
+        <input type="hidden" name="customer[name]" id="customerName" />
+        <input type="hidden" name="customer[email]" id="customerEmail" />
+        <input type="hidden" name="customer[phone_number]" id="customerPhone" />
+
+        <!-- Form Inputs -->
+        <div class="space-y-4">
+          <div>
+            <label class="block text-white text-sm font-semibold mb-2" for="nameInput">Full Name</label>
+            <input type="text" id="nameInput" required class="input-field w-full px-4 py-3 rounded-xl text-gray-800 placeholder-gray-500" placeholder="Enter your full name" />
+          </div>
+
+          <div>
+            <label class="block text-white text-sm font-semibold mb-2" for="emailInput">Email Address</label>
+            <input type="email" id="emailInput" required class="input-field w-full px-4 py-3 rounded-xl text-gray-800 placeholder-gray-500" placeholder="Enter your email" />
+          </div>
+
+          <div>
+            <label class="block text-white text-sm font-semibold mb-2" for="phoneInput">Phone Number</label>
+            <input type="tel" id="phoneInput" required class="input-field w-full px-4 py-3 rounded-xl text-gray-800 placeholder-gray-500" placeholder="Enter your phone number" />
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" onclick="fillCustomerFields()" class="pay-button w-full py-4 rounded-xl text-white font-bold text-lg tracking-wide">
+          Complete Payment
+        </button>
+
+        <!-- Security Note -->
+        <div class="text-center mt-4">
+          <p class="text-gray-300 text-xs">🔒 Your payment is secured with 256-bit SSL encryption</p>
+        </div>
+      </form>
     </div>
+  </div>
+</div>
+
 
     <script>
         // Three.js Background Animation
@@ -281,5 +287,46 @@
         // Initialize Three.js when page loads
         window.addEventListener('load', initThreeJS);
     </script>
+
+  <script>
+  const images = [
+    'toju.jpg', 'image1.jpg', 'register.jpg', 'drama.jpg', 'choir.jpg',
+    'image6.jpg', 'image7.jpg', 'image8.jpg', 'image9.jpg', 'image10.jpg',
+    'image11.jpg', 'image12.jpg', 'image13.jpg', 'image14.jpg', 'image15.jpg'
+  ];
+
+  const container = document.getElementById("photo-album");
+
+  images.forEach((img, index) => {
+    const el = document.createElement("img");
+    el.src = `/static/images/${img}`;
+    el.alt = `Photo ${index + 1}`;
+    el.className =
+      `absolute w-24 h-24 md:w-28 md:h-28 object-cover rounded-xl shadow-xl cursor-pointer transition-transform duration-300 hover:scale-110 fade-in`;
+
+    // Random position and rotation
+    el.style.top = `${Math.random() * 75}%`;
+    el.style.left = `${Math.random() * 75}%`;
+    el.style.transform += ` rotate(${Math.floor(Math.random() * 30 - 15)}deg)`;
+    el.style.zIndex = Math.floor(Math.random() * 30 + 10);
+
+    // Click opens lightbox
+    el.onclick = () => {
+      document.getElementById("lightbox-img").src = el.src;
+      document.getElementById("lightbox").classList.remove("hidden");
+    };
+
+    container.appendChild(el);
+
+    // Animate in
+    setTimeout(() => el.classList.add("fade-in-visible"), 100);
+  });
+
+  // Lightbox close
+  document.getElementById("lightbox").onclick = () => {
+    document.getElementById("lightbox").classList.add("hidden");
+  };
+</script>
+
 </body>
 </html> 

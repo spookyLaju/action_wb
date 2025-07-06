@@ -18,7 +18,9 @@ def checkout(request):
     Transaction.objects.create(
         ref=tx_ref, 
         amount=amount, 
-       
+        customer_name=request.POST.get("customer_name", "anonymous"),  # Example name, can be dynamic
+        customer_email=request.POST.get("customer_email", "anonymous@example.com"),  # Example email, can be dynamic
+        customer_phone=request.POST.get("customer_phone", "0000000000"),  # Example phone, can be dynamic
         currency='NGN'  
     )
 
@@ -29,7 +31,7 @@ def checkout(request):
         "tx_ref": tx_ref,
         "amount": amount,
         "currency": "NGN",
-        "redirect_url": "https://41a4-2c0f-2a80-1f-bd10-305a-5405-660c-dad7.ngrok-free.app/payment_callback",
+        "redirect_url": "https://9fec-2c0f-2a80-58-e410-fd45-f043-c914-e154.ngrok-free.app/payment_callback",
 
     }
 

@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,16 +24,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-z4whl0)=c=$(b@5&4b9*k^gw8!&2lf(_sd)*-8%*x+=exi!wh4'
-FLW_SECRET_KEY = "FLWSECK-3833f1597e234629ffe37a13dc9cfdc4-1971d460ea6vt-X"
+SECRET_KEY = os.getenv('SECRET_KEY')
+FLW_SECRET_KEY = os.getenv('FLW_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1',  '41a4-2c0f-2a80-1f-bd10-305a-5405-660c-dad7.ngrok-free.app']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '9fec-2c0f-2a80-58-e410-fd45-f043-c914-e154.ngrok-free.app']
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://41a4-2c0f-2a80-1f-bd10-305a-5405-660c-dad7.ngrok-free.app"
+    "https://9fec-2c0f-2a80-58-e410-fd45-f043-c914-e154.ngrok-free.app"
 ]
 
 
@@ -123,9 +126,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'staticfiles/'
+STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'staticfiles'),
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 # Default primary key field type

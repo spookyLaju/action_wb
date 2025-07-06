@@ -1,10 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GXPLOIT</title>
-    <link rel="stylesheet" href="/static/css/extra.css">
+    <link rel="stylesheet" href="{% static 'css/extra.css' %}">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
@@ -114,25 +115,25 @@
         </div>
 
         <!-- Image Album -->
-        <div class="relative w-full min-h-[600px] mt-10">
+        <div class="relative w-full min-h-[600px] mt-10" id="photo-album">
             <!-- Center Large Photos -->
-            <img src="/static/images/papa.jpg" class="photo-large left-[30%] top-[40%] z-30 rotate-[-5deg]" />
-            <img src="/static/images/wlbc.jpg" class="photo-large left-[2%] top-[10%] z-20 rotate-[3deg]" />
-            <img src="/static/images/image16.JPG" class="photo-large left-[65%] top-[55%] z-20 rotate-[8deg]" />
+            <img src="{% static 'images/papa.jpg' %}" class="photo-large left-[30%] top-[40%] z-30 rotate-[-5deg] absolute" />
+            <img src="{% static 'images/wlbc.jpg' %}" class="photo-large left-[2%] top-[10%] z-20 rotate-[3deg] absolute" />
+            <img src="{% static 'images/image16.JPG' %}" class="photo-large left-[65%] top-[55%] z-20 rotate-[8deg] absolute" />
 
             <!-- Surrounding Smaller Photos -->
-            <img src="/static/images/choir.jpg" class="photo-small left-[5%] top-[50%] rotate-[-10deg] z-10" />
-            <img src="/static/images/image2.JPG" class="photo-small left-[65%] top-[5%] rotate-[12deg] z-10" />
-            <img src="/static/images/image3.JPG" class="photo-small left-[65%] top-[20%] rotate-[7deg] z-10" />
-            <img src="/static/images/image6.JPG" class="photo-small left-[40%] top-[6%] rotate-[15deg] z-10" />
-            <img src="/static/images/image7.JPG" class="photo-small left-[10%] top-[35%] rotate-[-8deg] z-10" />
-            <img src="/static/images/image8.JPG" class="photo-small left-[30%] top-[70%] rotate-[-4deg] z-10" />
-            <img src="/static/images/image10.JPG" class="photo-small left-[35%] top-[25%] rotate-[10deg] z-10" />
-            <img src="/static/images/image13.JPG" class="photo-small left-[47%] top-[70%] rotate-[-6deg] z-10" />
-            <img src="/static/images/image15.JPG" class="photo-small left-[65%] top-[40%] rotate-[5deg] z-10" />
-            <img src="/static/images/drama.jpg" class="photo-small left-[5%] top-[70%] rotate-[10deg] z-10" />
-            <img src="/static/images/image17.JPG" class="photo-small left-[80%] top-[35%] rotate-[-12deg] z-10" />
-            <img src="/static/images/reg.jpg" class="photo-small left-[20%] top-[80%] rotate-[12deg] z-10" />
+            <img src="{% static 'images/choir.jpg' %}" class="photo-small left-[5%] top-[50%] rotate-[-10deg] z-10 absolute" />
+            <img src="{% static 'images/image2.JPG' %}" class="photo-small left-[65%] top-[5%] rotate-[12deg] z-10 absolute" />
+            <img src="{% static 'images/image3.JPG' %}" class="photo-small left-[65%] top-[20%] rotate-[7deg] z-10 absolute" />
+            <img src="{% static 'images/image6.JPG' %}" class="photo-small left-[40%] top-[6%] rotate-[15deg] z-10 absolute" />
+            <img src="{% static 'images/image7.JPG' %}" class="photo-small left-[10%] top-[35%] rotate-[-8deg] z-10 absolute" />
+            <img src="{% static 'images/image8.JPG' %}" class="photo-small left-[30%] top-[70%] rotate-[-4deg] z-10 absolute" />
+            <img src="{% static 'images/image10.JPG' %}" class="photo-small left-[35%] top-[25%] rotate-[10deg] z-10 absolute" />
+            <img src="{% static 'images/image13.JPG' %}" class="photo-small left-[47%] top-[70%] rotate-[-6deg] z-10 absolute" />
+            <img src="{% static 'images/image15.JPG' %}" class="photo-small left-[65%] top-[40%] rotate-[5deg] z-10 absolute" />
+            <img src="{% static 'images/drama.jpg' %}" class="photo-small left-[5%] top-[70%] rotate-[10deg] z-10 absolute" />
+            <img src="{% static 'images/image17.JPG' %}" class="photo-small left-[80%] top-[35%] rotate-[-12deg] z-10 absolute" />
+            <img src="{% static 'images/reg.jpg' %}" class="photo-small left-[20%] top-[80%] rotate-[12deg] z-10 absolute" />
         </div>
         </div>
 
@@ -159,11 +160,11 @@
         <input type="hidden" name="tx_ref" value="{{ tx_ref }}" />
         <input type="hidden" name="amount" value="{{ amount }}" />
         <input type="hidden" name="currency" value="NGN" />
-        <input type="hidden" name="redirect_url" value="https://your-redirect-url.com" />
+        <input type="hidden" name="redirect_url" value="https://0761-2c0f-2a80-58-e410-6c13-c0f9-35f9-1176.ngrok-free.app/payment_callback" />
         <input type="hidden" name="payment_options" value="card" />
-        <input type="hidden" name="customer[name]" id="customerName" />
-        <input type="hidden" name="customer[email]" id="customerEmail" />
-        <input type="hidden" name="customer[phone_number]" id="customerPhone" />
+        <input type="hidden" name="customer_name" id="customerName" />
+        <input type="hidden" name="customer_email" id="customerEmail" />
+        <input type="hidden" name="customer_phone_number" id="customerPhone" />
 
         <!-- Form Inputs -->
         <div class="space-y-4">
@@ -307,6 +308,9 @@
     </script>
 
     <script>
+  // Define static URL base path from Django
+  const STATIC_URL = "{% get_static_prefix %}";
+  
   const images = [
     'toju.jpg', 'image1.jpg', 'register.jpg', 'drama.jpg', 'choir.jpg',
     'image6.jpg', 'image7.jpg', 'image8.jpg', 'image9.jpg', 'image10.jpg',
@@ -317,7 +321,7 @@
 
   images.forEach((img, index) => {
     const el = document.createElement("img");
-    el.src = `/static/images/${img}`;
+    el.src = `${STATIC_URL}images/${img}`;
     el.alt = `Photo ${index + 1}`;
     el.className =
       `absolute w-24 h-24 md:w-28 md:h-28 object-cover rounded-xl shadow-xl cursor-pointer transition-transform duration-300 hover:scale-110 fade-in`;
@@ -347,4 +351,4 @@
 </script>
 
 </body>
-</html> 
+</html>
