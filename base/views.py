@@ -13,7 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 def checkout(request):
     tx_ref = f"tx-{uuid.uuid4()}"
-    amount = 200
+    amount = 10000
 
     Transaction.objects.create(
         ref=tx_ref, 
