@@ -30,10 +30,10 @@ FLW_SECRET_KEY = os.getenv('FLW_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '9fec-2c0f-2a80-58-e410-fd45-f043-c914-e154.ngrok-free.app']
+ALLOWED_HOSTS = ['gxploits2025.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://9fec-2c0f-2a80-58-e410-fd45-f043-c914-e154.ngrok-free.app"
+    "https://gxploits2025.pythonanywhere.com"
 ]
 
 

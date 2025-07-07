@@ -31,7 +31,7 @@ def checkout(request):
         "tx_ref": tx_ref,
         "amount": amount,
         "currency": "NGN",
-        "redirect_url": "https://9fec-2c0f-2a80-58-e410-fd45-f043-c914-e154.ngrok-free.app/payment_callback",
+        "redirect_url": "https://gxploits2025.pythonanywhere.com/payment_callback",
 
     }
 
